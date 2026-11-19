@@ -10,6 +10,7 @@ export type Filters = {
   maxPrice: number;
   radius: number;
   sort: Sort;
+  query: string;
 };
 
 export const RANGE = {
@@ -25,6 +26,7 @@ export const DEFAULT_FILTERS: Filters = {
   maxPrice: RANGE.acheter.max,
   radius: 10,
   sort: 'recent',
+  query: '',
 };
 
 let current: Filters = { ...DEFAULT_FILTERS };
@@ -33,14 +35,19 @@ export const setFilters = (f: Filters) => {
   current = f;
 };
 
+const norm = (s: string) =>
+  s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
 export function applyFilters(list: Listing[], f: Filters): Listing[] {
+  const q = norm(f.query.trim());
   const out = list.filter(
     (l) =>
       l.mode === f.mode &&
       (!f.type || l.type === f.type) &&
       (!f.minCh || l.ch >= f.minCh) &&
       l.priceNum >= f.minPrice &&
-      l.priceNum <= f.maxPrice
+      l.priceNum <= f.maxPrice &&
+      (!q || norm(l.title).includes(q) || norm(l.place).includes(q) || norm(l.type).includes(q))
   );
   if (f.sort === 'prix_asc') out.sort((a, b) => a.priceNum - b.priceNum);
   if (f.sort === 'prix_desc') out.sort((a, b) => b.priceNum - a.priceNum);

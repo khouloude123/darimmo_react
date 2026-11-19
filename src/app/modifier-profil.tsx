@@ -1,26 +1,10 @@
+﻿import { useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Alert } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
-import { useState } from 'react';
-import { Alert, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { C } from '../theme';
-
-type Profile = { name: string; email: string; phone: string };
-
-let profile: Profile = { name: '', email: '', phone: '' };
-
-const getProfile = (): Profile => ({ ...profile });
-const setProfile = (next: Profile) => {
-  profile = next;
-};
-const initials = (name: string) =>
-  name
-    .trim()
-    .split(/\s+/)
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((part) => part[0].toUpperCase())
-    .join('');
+import { getProfile, setProfile, initials } from '../profile';
 
 export default function ModifierProfil() {
   const router = useRouter();

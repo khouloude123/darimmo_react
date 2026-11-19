@@ -3,7 +3,7 @@ import { useFocusEffect, useRouter } from 'expo-router';
 import { type ReactNode, useCallback, useState } from 'react';
 import { ScrollView, StyleSheet, Switch, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { getProfile, initials } from '../../profil';
+import { getProfile, initials } from '../../profile';
 import { C } from '../../theme';
 
 type RowProps = {
@@ -71,7 +71,7 @@ export default function Profil() {
 
         {/* Réglages */}
         <View style={s.list}>
-          <Row icon="⌂" label="Mes annonces" right={<Text style={s.chev}>›</Text>} onPress={() => {}} />
+          <Row icon="⌂" label="Mes annonces" right={<Text style={s.chev}>›</Text>} onPress={() => router.push('/mes-annonces' as never)} />
           <Row icon="♡" label="Mes favoris" right={<Text style={s.chev}>›</Text>} onPress={() => {}} />
           <Row
             icon="🔔"
@@ -140,3 +140,5 @@ const s = StyleSheet.create({
   },
   logoutText: { fontFamily: 'Inter_600SemiBold', fontSize: 15, color: '#B91C1C' },
 });
+
+

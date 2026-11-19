@@ -1,13 +1,21 @@
+import { useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Alert } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
-import { useState } from 'react';
-import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { C } from '../theme';
 
 export default function Login() {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const submit = () => {
+    if (!email.trim() || !password) {
+      Alert.alert('Champs manquants', 'Saisissez votre email et votre mot de passe.');
+      return;
+    }
+    router.replace('/home' as never);
+  };
 
   return (
     <ScrollView style={s.screen} contentContainerStyle={{ paddingBottom: 40 }} keyboardShouldPersistTaps="handled">
@@ -45,11 +53,11 @@ export default function Login() {
           onChangeText={setPassword}
         />
 
-        <TouchableOpacity style={{ alignSelf: 'flex-end', marginTop: 12 }}>
+        <TouchableOpacity style={{ alignSelf: 'flex-end', marginTop: 12 }} onPress={() => router.push('/mot-de-passe-oublie' as never)}>
           <Text style={s.forgot}>Mot de passe oublié ?</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={s.primary} onPress={() => router.replace('/home' as never)}>
+        <TouchableOpacity style={s.primary} onPress={submit}>
           <Text style={s.primaryText}>Se connecter</Text>
         </TouchableOpacity>
 
@@ -65,10 +73,11 @@ export default function Login() {
       </View>
 
       <Text style={s.foot}>
-        Pas encore de compte ? <Text style={s.footLink}>Créer un compte</Text>
+        Pas encore de compte ?{' '}
+        <Text style={s.footLink} onPress={() => router.push('/signup' as never)}>Créer un compte</Text>
       </Text>
       <Text style={[s.foot, { marginTop: 8 }]}>
-        Administrateur ? <Text style={s.footLink}>Espace admin</Text>
+        Administrateur ? <Text style={s.footLink} onPress={() => router.push('/admin-login' as never)}>Espace admin</Text>
       </Text>
     </ScrollView>
   );
@@ -101,3 +110,5 @@ const s = StyleSheet.create({
   foot: { textAlign: 'center', marginTop: 20, fontFamily: 'Inter_400Regular', color: C.muted, fontSize: 14 },
   footLink: { fontFamily: 'Inter_600SemiBold', color: C.blue },
 });
+
+

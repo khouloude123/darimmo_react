@@ -1,4 +1,4 @@
-export type Profile = {
+﻿export type Profile = {
   name: string;
   email: string;
   phone: string;
@@ -6,7 +6,7 @@ export type Profile = {
 
 let current: Profile = {
   name: 'khouloud fakraoui',
-  email: 'khouloud.fakraoui@gmail.com',
+  email: 'khouloudfakraoui1@gmail.com',
   phone: '',
 };
 
